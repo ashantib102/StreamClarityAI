@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import fs from 'fs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,17 +10,29 @@ export default defineConfig({
     {
       name: 'inject-api-keys',
       generateBundle() {
-        // Create a script that injects API keys into the extension context
+        // Read the background.js file and inject API keys
+        const backgroundPath = resolve(__dirname, 'public/background.js');
+        let backgroundContent = fs.readFileSync(backgroundPath, 'utf-8');
+        
+        // Replace placeholder values with actual API keys
+        const openaiKey = process.env.VITE_OPENAI_API_KEY || '';
+        const youtubeKey = process.env.VITE_YOUTUBE_API_KEY || '';
+        
+        // Inject the API keys at the top of the background script
+        const apiKeysInjection = `
+// API Keys injected during build
+const OPENAI_API_KEY = '${openaiKey}';
+const YOUTUBE_API_KEY = '${youtubeKey}';
+
+`;
+        
+        backgroundContent = apiKeysInjection + backgroundContent;
+        
+        // Emit the modified background.js
         this.emitFile({
           type: 'asset',
-          fileName: 'api-config.js',
-          source: `
-// API Configuration for Chrome Extension
-window.API_CONFIG = {
-  OPENAI_API_KEY: "${process.env.VITE_OPENAI_API_KEY || ''}",
-  YOUTUBE_API_KEY: "${process.env.VITE_YOUTUBE_API_KEY || ''}"
-};
-          `.trim()
+          fileName: 'background.js',
+          source: backgroundContent
         });
       }
     }

@@ -32,7 +32,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["api-config.js", "content.js"],
+      "js": ["content.js"],
       "css": ["content.css"],
       "run_at": "document_end",
       "all_frames": false
@@ -43,7 +43,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["StreamClarity128x128.png", "sidebar.html", "black_circle_360x360.png", "api-config.js"],
+      "resources": ["StreamClarity128x128.png", "sidebar.html", "black_circle_360x360.png"],
       "matches": ["https://www.youtube.com/*"]
     }
   ]

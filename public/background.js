@@ -1,13 +1,3 @@
-// Import API keys from the injected configuration
-let OPENAI_API_KEY = '';
-let YOUTUBE_API_KEY = '';
-
-// Get API keys from the injected script
-if (typeof window !== 'undefined' && window.API_CONFIG) {
-    OPENAI_API_KEY = window.API_CONFIG.OPENAI_API_KEY;
-    YOUTUBE_API_KEY = window.API_CONFIG.YOUTUBE_API_KEY;
-}
-
 chrome.runtime.onInstalled.addListener(() => {
     console.log('Stream Clarity extension installed');
 });
@@ -31,17 +21,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         analyzeWithOpenAI(request.prompt, request.context, request.sophistication)
             .then(analysis => sendResponse({ success: true, analysis }))
             .catch(error => sendResponse({ success: false, error: error.message }));
-        return true;
-    }
-    
-    if (request.action === 'getApiKeys') {
-        sendResponse({ 
-            success: true, 
-            keys: { 
-                OPENAI_API_KEY, 
-                YOUTUBE_API_KEY 
-            } 
-        });
         return true;
     }
 });
