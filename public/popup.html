@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Clarity</title>
+    <style>
+        body {
+            width: 320px;
+            height: 180px;
+            margin: 0;
+            padding: 20px;
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .instruction-text {
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        .extension-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .extension-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .copy-button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background-color: #cc0000;
+        }
+        
+        .copy-button:active {
+            background-color: #990000;
+        }
+        
+        .config-link {
+            color: #FF0000;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .config-link:hover {
+            text-decoration: underline;
+        }
+        
+        .success-message {
+            font-size: 12px;
+            color: #4CAF50;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .success-message.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="instruction-text">
+        To enable Stream Clarity, navigate to the Chrome extensions page:
+    </div>
+    
+    <div class="extension-info">
+        <span class="extension-text">Enable Stream Clarity</span>
+        <button class="copy-button" id="copyExtensionsUrl">
+            Copy Extensions URL
+        </button>
+    </div>
+    
+    <div class="success-message" id="successMessage">
+        URL copied to clipboard!
+    </div>
+    
+    <a href="https://streamclarityai.online/" target="_blank" class="config-link">
+        Learn more about extension
+    </a>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

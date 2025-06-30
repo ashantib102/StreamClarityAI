@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Stream Clarity",
+  "version": "1.0.0",
+  "description": "Get real-time, multi-perspective analysis on any YouTube video with AI-powered insights",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://api.openai.com/*",
+    "https://www.googleapis.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Stream Clarity",
+    "default_icon": {
+      "16": "StreamClarity16x16.png",
+      "48": "StreamClarity64x64.png",
+      "128": "StreamClarity128x128.png"
+    }
+  },
+  "icons": {
+    "16": "StreamClarity16x16.png",
+    "48": "StreamClarity64x64.png",
+    "64": "StreamClarity64x64.png",
+    "128": "StreamClarity128x128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["StreamClarity128x128.png", "sidebar.html", "black_circle_360x360.png"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ]
+}

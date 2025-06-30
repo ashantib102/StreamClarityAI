@@ -1,0 +1,64 @@
+/* Stream Clarity Content Styles */
+#stream-clarity-button {
+    transition: all 0.3s ease !important;
+}
+
+#stream-clarity-button:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4) !important;
+}
+
+#stream-clarity-sidebar {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+#stream-clarity-sidebar * {
+    box-sizing: border-box;
+}
+
+#stream-clarity-sidebar button:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
+
+#stream-clarity-sidebar details[open] summary {
+    border-bottom: 1px solid #555;
+    margin-bottom: 0;
+}
+
+#stream-clarity-sidebar .analysis-button:hover {
+    background: #666 !important;
+}
+
+#stream-clarity-sidebar textarea {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+#stream-clarity-sidebar #analysis-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#stream-clarity-sidebar #results-content {
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* Scrollbar styling for sidebar */
+#stream-clarity-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#stream-clarity-sidebar::-webkit-scrollbar-track {
+    background: #333;
+}
+
+#stream-clarity-sidebar::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 4px;
+}
+
+#stream-clarity-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
