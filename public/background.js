@@ -23,16 +23,51 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             .catch(error => sendResponse({ success: false, error: error.message }));
         return true;
     }
+    
+    if (request.action === 'saveApiKeys') {
+        chrome.storage.local.set({
+            openaiApiKey: request.openaiKey,
+            youtubeApiKey: request.youtubeKey
+        }, () => {
+            sendResponse({ success: true });
+        });
+        return true;
+    }
+    
+    if (request.action === 'getApiKeys') {
+        chrome.storage.local.get(['openaiApiKey', 'youtubeApiKey'], (result) => {
+            sendResponse({
+                success: true,
+                openaiKey: result.openaiApiKey || '',
+                youtubeKey: result.youtubeApiKey || ''
+            });
+        });
+        return true;
+    }
 });
 
+async function getApiKeys() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(['openaiApiKey', 'youtubeApiKey'], (result) => {
+            resolve({
+                openaiKey: result.openaiApiKey || '',
+                youtubeKey: result.youtubeApiKey || ''
+            });
+        });
+    });
+}
+
 async function fetchTranscript(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
+    const { youtubeKey } = await getApiKeys();
+    
+    if (!youtubeKey) {
+        throw new Error('YouTube API key not configured. Please set it in the extension popup.');
+    }
     
     try {
         // Try to get video details first to ensure video exists
         const videoResponse = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YOUTUBE_API_KEY}`
+            `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${youtubeKey}`
         );
         
         if (!videoResponse.ok) {
@@ -59,12 +94,15 @@ async function fetchTranscript(videoId) {
 }
 
 async function fetchComments(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
+    const { youtubeKey } = await getApiKeys();
+    
+    if (!youtubeKey) {
+        throw new Error('YouTube API key not configured. Please set it in the extension popup.');
+    }
     
     try {
         const response = await fetch(
-            `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&order=relevance&maxResults=100&key=${YOUTUBE_API_KEY}`
+            `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&order=relevance&maxResults=100&key=${youtubeKey}`
         );
         
         if (!response.ok) {
@@ -91,8 +129,11 @@ async function fetchComments(videoId) {
 }
 
 async function analyzeWithOpenAI(prompt, context, sophistication = 'Standard') {
-    // Use the API key directly (replace with your actual key)
-    const OPENAI_API_KEY = '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';
+    const { openaiKey } = await getApiKeys();
+    
+    if (!openaiKey) {
+        throw new Error('OpenAI API key not configured. Please set it in the extension popup.');
+    }
     
     // Add sophistication modifier to prompt
     let sophisticationModifier = '';
@@ -114,7 +155,7 @@ async function analyzeWithOpenAI(prompt, context, sophistication = 'Standard') {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${OPENAI_API_KEY}`
+                'Authorization': `Bearer ${openaiKey}`
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',
