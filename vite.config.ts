@@ -8,12 +8,21 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   const env = loadEnv(mode, process.cwd(), '');
   
+  console.log('=== Environment Debug Info ===');
+  console.log('Mode:', mode);
+  console.log('Current working directory:', process.cwd());
+  console.log('Environment variables loaded:', Object.keys(env).filter(key => key.startsWith('VITE_')));
+  console.log('VITE_OPENAI_API_KEY present:', !!env.VITE_OPENAI_API_KEY);
+  console.log('VITE_YOUTUBE_API_KEY present:', !!env.VITE_YOUTUBE_API_KEY);
+  
   return {
     plugins: [
       react(),
       {
         name: 'inject-api-keys',
         generateBundle() {
+          console.log('=== API Key Injection Plugin ===');
+          
           // Read the background.js file and inject API keys
           const backgroundPath = resolve(__dirname, 'public/background.js');
           let backgroundContent = fs.readFileSync(backgroundPath, 'utf-8');
@@ -24,11 +33,14 @@ export default defineConfig(({ mode }) => {
           
           console.log('Injecting API keys...');
           console.log('OpenAI key present:', !!openaiKey);
+          console.log('OpenAI key length:', openaiKey.length);
           console.log('YouTube key present:', !!youtubeKey);
+          console.log('YouTube key length:', youtubeKey.length);
           
           if (!openaiKey || !youtubeKey) {
-            console.warn('⚠️  Warning: API keys not found in environment variables');
-            console.warn('Make sure you have a .env file with VITE_OPENAI_API_KEY and VITE_YOUTUBE_API_KEY');
+            console.error('❌ ERROR: API keys not found in environment variables');
+            console.error('Make sure you have a .env file with VITE_OPENAI_API_KEY and VITE_YOUTUBE_API_KEY');
+            console.error('Current env keys:', Object.keys(env).filter(key => key.startsWith('VITE_')));
           }
           
           // Inject the API keys at the top of the background script
@@ -46,6 +58,8 @@ const YOUTUBE_API_KEY = '${youtubeKey}';
             fileName: 'background.js',
             source: backgroundContent
           });
+          
+          console.log('✅ Background.js generated with API keys');
         }
       }
     ],
