@@ -26,8 +26,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 async function fetchTranscript(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
+    // Get API key from Chrome storage or use environment variable
+    const result = await chrome.storage.local.get(['youtubeApiKey']);
+    const YOUTUBE_API_KEY = result.youtubeApiKey || 'YOUR_YOUTUBE_API_KEY_HERE';
+    
+    if (YOUTUBE_API_KEY === 'YOUR_YOUTUBE_API_KEY_HERE') {
+        throw new Error('YouTube API key not configured. Please set up your API keys in the extension options.');
+    }
     
     try {
         // Try to get video details first to ensure video exists
@@ -59,8 +64,13 @@ async function fetchTranscript(videoId) {
 }
 
 async function fetchComments(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
+    // Get API key from Chrome storage
+    const result = await chrome.storage.local.get(['youtubeApiKey']);
+    const YOUTUBE_API_KEY = result.youtubeApiKey || 'YOUR_YOUTUBE_API_KEY_HERE';
+    
+    if (YOUTUBE_API_KEY === 'YOUR_YOUTUBE_API_KEY_HERE') {
+        throw new Error('YouTube API key not configured. Please set up your API keys in the extension options.');
+    }
     
     try {
         const response = await fetch(
@@ -91,8 +101,13 @@ async function fetchComments(videoId) {
 }
 
 async function analyzeWithOpenAI(prompt, context, sophistication = 'Standard') {
-    // Use the API key directly (replace with your actual key)
-    const OPENAI_API_KEY = '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';
+    // Get API key from Chrome storage
+    const result = await chrome.storage.local.get(['openaiApiKey']);
+    const OPENAI_API_KEY = result.openaiApiKey || 'YOUR_OPENAI_API_KEY_HERE';
+    
+    if (OPENAI_API_KEY === 'YOUR_OPENAI_API_KEY_HERE') {
+        throw new Error('OpenAI API key not configured. Please set up your API keys in the extension options.');
+    }
     
     // Add sophistication modifier to prompt
     let sophisticationModifier = '';

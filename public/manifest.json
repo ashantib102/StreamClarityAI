@@ -23,6 +23,7 @@
       "128": "StreamClarity128x128.png"
     }
   },
+  "options_page": "options.html",
   "icons": {
     "16": "StreamClarity16x16.png",
     "48": "StreamClarity64x64.png",

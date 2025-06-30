@@ -7,7 +7,7 @@
     <style>
         body {
             width: 320px;
-            height: 180px;
+            height: 200px;
             margin: 0;
             padding: 20px;
             background-color: #000;
@@ -30,6 +30,7 @@
         
         .extension-info {
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 12px;
             margin-bottom: 10px;
@@ -41,7 +42,7 @@
             color: #fff;
         }
         
-        .copy-button {
+        .action-button {
             background-color: #FF0000;
             color: white;
             border: none;
@@ -51,13 +52,14 @@
             font-size: 14px;
             font-weight: 500;
             transition: background-color 0.3s ease;
+            min-width: 120px;
         }
         
-        .copy-button:hover {
+        .action-button:hover {
             background-color: #cc0000;
         }
         
-        .copy-button:active {
+        .action-button:active {
             background-color: #990000;
         }
         
@@ -85,12 +87,14 @@
 </head>
 <body>
     <div class="instruction-text">
-        To enable Stream Clarity, navigate to the Chrome extensions page:
+        Stream Clarity is ready to analyze YouTube videos!
     </div>
     
     <div class="extension-info">
-        <span class="extension-text">Enable Stream Clarity</span>
-        <button class="copy-button" id="copyExtensionsUrl">
+        <button class="action-button" id="openOptions">
+            Setup API Keys
+        </button>
+        <button class="action-button" id="copyExtensionsUrl">
             Copy Extensions URL
         </button>
     </div>

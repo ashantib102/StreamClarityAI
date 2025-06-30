@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const copyButton = document.getElementById('copyExtensionsUrl');
+    const optionsButton = document.getElementById('openOptions');
     const successMessage = document.getElementById('successMessage');
+    
+    // Handle options button click
+    optionsButton.addEventListener('click', function() {
+        chrome.runtime.openOptionsPage();
+    });
     
     // Handle copy button click
     copyButton.addEventListener('click', function() {
