@@ -6,218 +6,102 @@
     <title>Stream Clarity</title>
     <style>
         body {
-            width: 400px;
-            min-height: 500px;
+            width: 320px;
+            height: 180px;
             margin: 0;
             padding: 20px;
             background-color: #000;
             color: #fff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
         }
         
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #333;
-        }
-        
-        .logo {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 10px;
-        }
-        
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #FF0000;
-            margin: 0;
-        }
-        
-        .subtitle {
+        .instruction-text {
             font-size: 14px;
-            color: #ccc;
-            margin: 5px 0 0 0;
-        }
-        
-        .section {
-            margin-bottom: 25px;
-        }
-        
-        .section-title {
-            font-size: 16px;
-            font-weight: 600;
             color: #fff;
-            margin-bottom: 10px;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            font-size: 14px;
-            color: #ccc;
+            text-align: center;
             margin-bottom: 5px;
-        }
-        
-        input[type="password"], input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            background: #333;
-            border: 1px solid #555;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-        
-        input:focus {
-            outline: none;
-            border-color: #FF0000;
-            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
-        }
-        
-        .button {
-            width: 100%;
-            padding: 12px;
-            background: #FF0000;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-        
-        .button:hover {
-            background: #cc0000;
-        }
-        
-        .button:disabled {
-            background: #666;
-            cursor: not-allowed;
-        }
-        
-        .button.secondary {
-            background: #444;
-        }
-        
-        .button.secondary:hover {
-            background: #555;
-        }
-        
-        .status {
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
-        }
-        
-        .status.success {
-            background: rgba(76, 175, 80, 0.2);
-            border: 1px solid #4CAF50;
-            color: #4CAF50;
-        }
-        
-        .status.error {
-            background: rgba(244, 67, 54, 0.2);
-            border: 1px solid #f44336;
-            color: #f44336;
-        }
-        
-        .help-text {
-            font-size: 12px;
-            color: #999;
-            margin-top: 5px;
             line-height: 1.4;
         }
         
-        .link {
-            color: #FF0000;
-            text-decoration: none;
+        .extension-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
         }
         
-        .link:hover {
+        .extension-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .copy-button {
+            background-color: #FF0000;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .copy-button:hover {
+            background-color: #cc0000;
+        }
+        
+        .copy-button:active {
+            background-color: #990000;
+        }
+        
+        .config-link {
+            color: #FF0000;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .config-link:hover {
             text-decoration: underline;
         }
         
-        .key-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 5px;
-        }
-        
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #666;
-        }
-        
-        .status-indicator.configured {
-            background: #4CAF50;
-        }
-        
-        .status-text {
+        .success-message {
             font-size: 12px;
-            color: #ccc;
+            color: #4CAF50;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .success-message.show {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="StreamClarity64x64.png" alt="Stream Clarity" class="logo">
-        <h1 class="title">Stream Clarity</h1>
-        <p class="subtitle">AI-Powered YouTube Analysis</p>
+    <div class="instruction-text">
+        To enable Stream Clarity, navigate to the Chrome extensions page:
     </div>
     
-    <div class="section">
-        <div class="section-title">API Configuration</div>
-        
-        <div class="form-group">
-            <label for="openai-key">OpenAI API Key</label>
-            <input type="password" id="openai-key" placeholder="sk-proj-...">
-            <div class="key-status">
-                <div class="status-indicator" id="openai-status"></div>
-                <span class="status-text" id="openai-text">Not configured</span>
-            </div>
-            <div class="help-text">
-                Get your API key from <a href="https://platform.openai.com/api-keys" target="_blank" class="link">OpenAI Platform</a>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="youtube-key">YouTube Data API v3 Key</label>
-            <input type="password" id="youtube-key" placeholder="AIza...">
-            <div class="key-status">
-                <div class="status-indicator" id="youtube-status"></div>
-                <span class="status-text" id="youtube-text">Not configured</span>
-            </div>
-            <div class="help-text">
-                Get your API key from <a href="https://console.developers.google.com/" target="_blank" class="link">Google Cloud Console</a>
-            </div>
-        </div>
-        
-        <button class="button" id="save-keys">Save API Keys</button>
-        <div id="save-status"></div>
+    <div class="extension-info">
+        <span class="extension-text">Enable Stream Clarity</span>
+        <button class="copy-button" id="copyExtensionsUrl">
+            Copy Extensions URL
+        </button>
     </div>
     
-    <div class="section">
-        <div class="section-title">Usage</div>
-        <p style="font-size: 14px; color: #ccc; line-height: 1.4; margin: 0;">
-            Navigate to any YouTube video and click the Stream Clarity floating button to begin analysis.
-        </p>
+    <div class="success-message" id="successMessage">
+        URL copied to clipboard!
     </div>
     
-    <div class="section">
-        <button class="button secondary" id="clear-keys">Clear All Keys</button>
-    </div>
+    <a href="https://streamclarityai.online/" target="_blank" class="config-link">
+        Learn more about extension
+    </a>
     
     <script src="popup.js"></script>
 </body>
