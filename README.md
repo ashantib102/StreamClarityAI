@@ -117,7 +117,3 @@ For questions or support, email: ashantib102@gmail.com
 - [Website](https://streamclarityai.online/)
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [YouTube Data API Documentation](https://developers.google.com/youtube/v3)
-
----
-
-**⚠️ Remember to keep your API keys secure and never share them publicly!**
