@@ -1,3 +1,13 @@
+// Import API keys from the injected configuration
+let OPENAI_API_KEY = '';
+let YOUTUBE_API_KEY = '';
+
+// Get API keys from the injected script
+if (typeof window !== 'undefined' && window.API_CONFIG) {
+    OPENAI_API_KEY = window.API_CONFIG.OPENAI_API_KEY;
+    YOUTUBE_API_KEY = window.API_CONFIG.YOUTUBE_API_KEY;
+}
+
 chrome.runtime.onInstalled.addListener(() => {
     console.log('Stream Clarity extension installed');
 });
@@ -23,12 +33,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             .catch(error => sendResponse({ success: false, error: error.message }));
         return true;
     }
+    
+    if (request.action === 'getApiKeys') {
+        sendResponse({ 
+            success: true, 
+            keys: { 
+                OPENAI_API_KEY, 
+                YOUTUBE_API_KEY 
+            } 
+        });
+        return true;
+    }
 });
 
 async function fetchTranscript(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
-    
     try {
         // Try to get video details first to ensure video exists
         const videoResponse = await fetch(
@@ -59,9 +77,6 @@ async function fetchTranscript(videoId) {
 }
 
 async function fetchComments(videoId) {
-    // Use the API key directly (replace with your actual key)
-    const YOUTUBE_API_KEY = 'AIzaSyDNdd8QpOFJZfc2tAxtpW8rALWfK-joY70';
-    
     try {
         const response = await fetch(
             `https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoId}&order=relevance&maxResults=100&key=${YOUTUBE_API_KEY}`
@@ -91,9 +106,6 @@ async function fetchComments(videoId) {
 }
 
 async function analyzeWithOpenAI(prompt, context, sophistication = 'Standard') {
-    // Use the API key directly (replace with your actual key)
-    const OPENAI_API_KEY = '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';
-    
     // Add sophistication modifier to prompt
     let sophisticationModifier = '';
     switch (sophistication) {
